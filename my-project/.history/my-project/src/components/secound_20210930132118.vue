@@ -1,0 +1,768 @@
+<template>
+  <div style="background-color: #091022; width: 100vw; height: 100vh">
+    <!-- 表头 -->
+    <div
+      class="header"
+      style="
+        width: 99.6vw;
+        background-color: #151e2d;
+        height: 6vh;
+        margin-left: 0.2vw;
+        display: flex;
+        justify-content: space-between;
+      "
+    >
+      <!-- 表头左侧三个模块 -->
+      <div style="display: flex; justify-content: flex-start">
+        <!-- 图片标题 -->
+        <div style="display: flex; justify-content: flex-start">
+          <img
+            src="../assets/a.png"
+            style="height: 4vh; margin-top: 1vh; margin-left: 2vw"
+          />
+          <span
+            style="
+              height: 6vh;
+              line-height: 6vh;
+              margin-left: 1vw;
+              color: white;
+              font-size: 1vw;
+            "
+          >
+            钢包管理系统
+          </span>
+        </div>
+        <div
+          style="
+            border-bottom: solid 3px #dfb464;
+            margin-left: 4vw;
+            line-height: 5.7vh;
+            color: #dfb464;
+          "
+        >
+          采集明细
+        </div>
+      </div>
+      <!-- 表头左侧三个模块 -->
+
+      <!-- 表头右侧两个模块 -->
+      <div
+        style="
+          display: flex;
+          justify-content: space-around;
+          width: 9vw;
+          margin-right: 1vw;
+        "
+      >
+        <div>
+          <img
+            src="../assets/e.png"
+            style="height: 2vh; margin-top: 1.9vh"
+            @click="turnSecound()"
+          />
+        </div>
+        <div>
+          <div
+            style="
+              height: 5.7vh;
+              line-height: 5.7vh;
+              color: #a0bbd6;
+              font-size: 1vw;
+            "
+          >
+            {{ chn }}
+          </div>
+        </div>
+        <div>
+          <img
+            :src="photoURL"
+            style="
+              width: 2vw;
+              height: 4vh;
+              border-radius: 25px;
+              margin-top: 1vh;
+            "
+          />
+        </div>
+      </div>
+      <!-- 表头右侧两个模块 -->
+    </div>
+    <!-- 表头 -->
+    <!-- 第二行 -->
+    <div
+      style="
+        margin-left: 0.3vw;
+        display: flex;
+        justify-content: flex-start;
+        width: 99vw;
+      "
+    >
+      <!-- 日期控件部分 -->
+      <div
+        style="
+          display: flex;
+          justify-content: flex-start;
+          width: 25.3vw;
+          height: 3.6vh;
+          margin-top: 1vh;
+          background-color: #1e3466;
+        "
+      >
+        <!-- 最左侧的日历图片 -->
+        <img
+          src="../assets/b.png"
+          style="height: 2vh; margin-top: 0.6vh; margin-left: 0.5vw"
+        />
+        <!-- 日期控件 -->
+        <div style="margin-top: 0.3vh">
+          <el-date-picker
+            v-model="value1"
+            type="datetimerange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            value-format="yyyy-MM-dd"
+          >
+          </el-date-picker>
+        </div>
+        <!-- 按钮 -->
+        <div
+          style="
+            width: 12.5vw;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 0.1vh;
+          "
+        >
+          <div
+            @click="prevDate()"
+            style="
+              height: 3.3vh;
+              width: 4vw;
+              border-radius: 0.2vw;
+              background-color: #0058ce;
+              color: white;
+              line-height: 3.5vh;
+              text-align: center;
+              margin-left: -0.1vw;
+              font-size:0.5vw;
+              cursor: pointer;
+            "
+          >
+            前一天
+          </div>
+          <div
+            @click="displayToday()"
+            style="
+              height: 3.3vh;
+              width: 4vw;
+              border-radius: 0.2vw;
+              background-color: #0058ce;
+              color: white;
+              line-height: 3.5vh;
+              text-align: center;
+              font-size:0.5vw;
+              cursor: pointer;
+            "
+          >
+            今天
+          </div>
+          <div
+            @click="nextDate()"
+            style="
+              height: 3.3vh;
+              width: 4vw;
+              border-radius: 0.2vw;
+              background-color: #0058ce;
+              color: white;
+              line-height: 3.5vh;
+              text-align: center; ;
+              font-size:0.5vw;
+              cursor: pointer;
+            "
+          >
+            后一天
+          </div>
+        </div>
+      </div>
+      <!-- 热修冷修按钮 -->
+      <div style="width: 8vw; margin-left: 1.5vw; margin-top: 1vh">
+        <div
+          style="
+            height: 3.3vh;
+            width: 5vw;
+            border-radius: 0.2vw;
+            background-color: #0058ce;
+            color: white;
+            line-height: 3.5vh;
+            text-align: center;
+            display: flex;
+            justify-content: flex-start;
+          "
+        >
+          <div @click="turnFirst()" style="width: 2.5vw; font-size: 0.8vw;background-color: #1d3466;cursor: pointer;">
+            热修
+          </div>
+          <div
+            style="
+              width: 2.5vw;
+              border-radius: 0.2vw;
+              font-size: 0.8vw;
+            "
+          >
+            冷修
+          </div>
+        </div>
+      </div>
+      <!-- 包号输入按钮 -->
+      <div
+        style="
+          display: flex;
+          justify-content: flex-start;
+          height: 3.3vh;
+          line-height: 3.3vh;
+          margin-top: 1vh;
+          width: 8vw;
+          margin-left:-2vw
+        "
+      >
+        <span style="color: #bfe5f8;font-size:0.5vw;">包号</span>
+        <input
+          type="text"
+          v-model="ladleNo"
+          style="
+            height: 3.3vh;
+            margin-left: 0.6vw;
+            border-radius: 0.2vw;
+            width: 5vw;
+            background: #1d3466;
+            border: none;
+            color: white;
+            cursor: pointer;
+          "
+        />
+      </div>
+      <!-- 搜索按钮 -->
+      <div
+        @click="selectLadleState()"
+        style="
+          height: 3.3vh;
+          width: 4vw;
+          border-radius: 0.2vw;
+          background-color: #0058ce;
+          color: white;
+          line-height: 3.5vh;
+          text-align: center;
+          margin-top: 1vh;
+          font-size:0.5vw;
+          margin-left:-0.6vw;
+          cursor: pointer;
+        "
+      >
+        搜索
+      </div>
+    </div>
+    <!-- 第二行 -->
+    <!-- 表格部分 -->
+    <div>
+      <!-- 表格部分第一行 -->
+      <div style="display: flex; justify-content: flex-start">
+        <!-- 第一个模块 -->
+        <div style="margin-left: 0.5vw">
+          <div
+            style="
+              display: flex;
+              justify-content: flex-start;
+              height: 4vh;
+              line-height: 4vh;
+            "
+          >
+            <img
+              src="../assets/gbgl_icon1.png"
+              style="height: 2vh; margin-top: 1vh; margin-left: 0.5vw"
+            />
+            <span style="color: white; margin-left: 0.5vw"> 打结 </span>
+          </div>
+          <!-- 表格背景色 -->
+          <div style="height: 39vh; width: 46vw; background-color: #2a354b">
+            <table
+              class="table"
+              style="border-collapse: collapse; font-size: 0.5vw"
+            >
+              <thead style="color: #f8faff; margin-top: 1vh; width: 45vw">
+                <tr>
+                  <th>序号</th>
+                  <th>日期</th>
+                  <th>包号</th>
+                  <th>部位</th>
+                  <th>开始时间</th>
+                  <th>结束时间</th>
+                  <th>时长</th>
+                </tr>
+              </thead>
+              <tbody
+                style="
+                  color: #bde5f7;
+                  width: 45vw;
+                  height: 31.5vh;
+                  margin-left: 0.15vw;
+                "
+              >
+                <tr v-for="(item, index) in knotList" :key="index">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.datetime }}</td>
+                  <td>{{ item.ladleno }}</td>
+                  <td>{{ item.positions }}</td>
+                  <td>{{ item.knotstarttime }}</td>
+                  <td>{{ item.kontendtime }}</td>
+                  <td>{{ item.knottime }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div></div>
+        </div>
+        <!-- 第二个模块 -->
+        <div style="margin-left: 0.5vw">
+          <div
+            style="
+              display: flex;
+              justify-content: flex-start;
+              height: 4vh;
+              line-height: 4vh;
+            "
+          >
+            <img
+              src="../assets/gbgl_icon2.png"
+              style="height: 2vh; margin-top: 1vh; margin-left: 0.5vw"
+            />
+            <span style="color: white; margin-left: 0.5vw"> 烘烤 </span>
+          </div>
+          <!-- 表格背景色 -->
+          <div style="height: 39vh; width: 52vw; background-color: #2a354b">
+            <table
+              class="table"
+              style="border-collapse: collapse; font-size: 0.5vw"
+            >
+              <thead style="color: #f8faff; margin-top: 1vh; width: 51vw">
+                <tr>
+                  <th>序号</th>
+                  <th>日期</th>
+                  <th>包号</th>
+                  <th>开始时间</th>
+                  <th>结束时间</th>
+                  <th>时长</th>
+                  <th>终点温度(℃)</th>
+                  <th>上线时间</th>
+                  <th>责任人</th>
+                </tr>
+              </thead>
+              <tbody
+                style="
+                  color: #bde5f7;
+                  width: 51vw;
+                  height: 31.5vh;
+                  margin-left: 0.15vw;
+                "
+              >
+                <tr v-for="(item, index) in bakeStartList" :key="index">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.datetime }}</td>
+                  <td>{{ item.ladleno }}</td>
+                  <td>{{ item.bakestarttime }}</td>
+                  <td>{{ item.bakeendtime }}</td>
+                  <td>{{ item.bakeduringtime }}</td>
+                  <td>{{ item.finishtemp }}</td>
+                  <td>{{ item.planonlinetime }}</td>
+                  <td>{{ item.offlineresponsername }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div></div>
+        </div>
+      </div>
+      <!-- 表格部分第二行 -->
+      <div style="display: flex; justify-content: flex-start">
+        <!-- 第三个模块 -->
+        <div style="margin-left: 0.5vw">
+          <div
+            style="
+              display: flex;
+              justify-content: flex-start;
+              height: 4vh;
+              line-height: 4vh;
+            "
+          >
+            <img
+              src="../assets/gbgl_icon3.png"
+              style="height: 2vh; margin-top: 1vh; margin-left: 0.5vw"
+            />
+            <span style="color: white; margin-left: 0.5vw"> 离线烤包 </span>
+          </div>
+          <!-- 表格背景色 -->
+          <div style="height: 39vh; width: 46vw; background-color: #2a354b">
+            <table
+              class="table"
+              style="border-collapse: collapse; font-size: 0.5vw"
+            >
+              <thead style="color: #f8faff; margin-top: 1vh; width: 45vw">
+                <tr>
+                  <th>序号</th>
+                  <th>日期</th>
+                  <th>包号</th>
+                  <th>开始时间</th>
+                  <th>结束时间</th>
+                  <th>时长(min)</th>
+                  <th>新包温度(℃)</th>
+                  <th>重量(t)</th>
+                </tr>
+              </thead>
+              <tbody
+                style="
+                  color: #bde5f7;
+                  width: 45vw;
+                  height: 31.5vh;
+                  margin-left: 0.15vw;
+                "
+              >
+                <tr v-for="(item, index) in proTempList" :key="index">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.datetime }}</td>
+                  <td>{{ item.ladleno }}</td>
+                  <td>{{ item.protempstarttime }}</td>
+                  <td>{{ item.protempendtime }}</td>
+                  <td>{{ item.protemptime }}</td>
+                  <td>{{ item.newladletemp }}</td>
+                  <td>{{ item.weight }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div></div>
+        </div>
+        <!-- 第四个模块 -->
+        <div style="margin-left: 0.5vw">
+          <div
+            style="
+              display: flex;
+              justify-content: flex-start;
+              height: 4vh;
+              line-height: 4vh;
+            "
+          >
+            <img
+              src="../assets/gbgl_icon4.png"
+              style="height: 2vh; margin-top: 1vh; margin-left: 0.5vw"
+            />
+            <span style="color: white; margin-left: 0.5vw"> 拆包 </span>
+          </div>
+          <!-- 表格背景色 -->
+          <div style="height: 39vh; width: 52vw; background-color: #2a354b">
+            <table
+              class="table"
+              style="border-collapse: collapse; font-size: 0.5vw"
+            >
+              <thead
+                style="
+                  color: #f8faff;
+                  margin-top: 1vh;
+                  width: 51vw;
+                  height: 7.5vh;
+                "
+              >
+                <tr>
+                  <th rowspan="2">序号</th>
+                  <th rowspan="2">日期</th>
+                  <th rowspan="2">包号</th>
+                  <th rowspan="2">开始时间</th>
+                  <th rowspan="2">结束时间</th>
+                  <th rowspan="2">时长</th>
+                  <th rowspan="2">下线原因</th>
+                  <th rowspan="2">冷修类型</th>
+                  <th colspan="4">残厚(mm)</th>
+                </tr>
+                <tr>
+                  <th>水口座砖</th>
+                  <th>包底</th>
+                  <th>透气转</th>
+                  <th>渣线</th>
+                </tr>
+              </thead>
+              <tbody
+                style="
+                  color: #bde5f7;
+                  width: 51vw;
+                  height: 29vh;
+                  margin-left: 0.15vw;
+                "
+              >
+                <tr v-for="(item, index) in unpackedList" :key="index">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.datetime }}</td>
+                  <td>{{ item.ladleno }}</td>
+                  <td>{{ item.unpackedstarttime }}</td>
+                  <td>{{ item.unpackedendtime }}</td>
+                  <td>{{ item.offlinetime }}</td>
+                  <td>{{ item.offlinereasone }}</td>
+                  <td>{{ item.offlinetype }}</td>
+                  <td>{{ item.pocketblockthk }}</td>
+                  <td>{{ item.bottomthk }}</td>
+                  <td>{{ item.airbrickthk }}</td>
+                  <td>{{ item.slaglinethk }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import * as echarts from "echarts";
+import axios from "axios";
+export default {
+  name: "secound",
+  data() {
+    return {
+      token: "",
+      card: "",
+      chn: "",
+      value1: [],
+      photoURL: "",
+      ladleStateList: "",
+      ladleNo: "",
+      knotList: [],
+      proTempList: [],
+      unpackedList: [],
+      bakeStartList: [],
+    };
+  },
+  created() {
+    this.displayToday();
+    // 获取用户名和相片,需要写一个getQueryString(name)方法
+    this.token = this.getQueryString("token");
+    //this.select(this.token);
+    // 查询新钢铁用户权限
+    this.card = this.getQueryString("card");
+    if (this.card == null) {
+      window.location.href =
+        "http://10.6.1.129/login/index.html?url=" + window.location.href;
+    }
+    sessionStorage.setItem("card", this.card);
+    this.card = sessionStorage.getItem("card");
+    this.$axios("http://10.6.1.198:8888/shiro/web/authc/address", {
+      params: {
+        user: this.card,
+      },
+    }).then((res) => {
+      this.chn = res.data.obj.chn; //中文名
+      this.photoURL = res.data.obj.photoURL; //头像图片路径
+
+      console.log(this.photoURL);
+      console.log(this.chn);
+      sessionStorage.setItem("chn", this.chn);
+      sessionStorage.setItem("photoURL", this.photoURL);
+    });
+    // 获取用户名和相片
+  },
+  methods: {
+    // 获取用户名和相片
+    getQueryString(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) {
+        return unescape(r[2]);
+      }
+      return null;
+    },
+    // 跳转到第一页
+    turnFirst() {
+      this.$router.push({ path: "/", query: {} });
+    },
+    selectLadleState() {
+      axios({
+        method: "post",
+        url: "http://localhost:40001/mpd/led/ladleonlinestate/selectLadleState",
+        params: {
+          ladleNo: this.ladleNo,
+          prepairStartTime: this.value1[0],
+          prepairEndTime: this.value1[1],
+        },
+      }).then((res) => {
+        (this.knotList = res.data[0]),
+          (this.proTempList = res.data[1]),
+          (this.unpackedList = res.data[2]),
+          (this.bakeStartList = res.data[3]);
+        console.log(res.data);
+      });
+    },
+    // 今天
+    displayToday() {
+      let row=[];
+      row[0] = this.convertToDate(new Date().getTime()); //格式化日期并赋值
+      row[1] = this.convertToDate(new Date().getTime()); //格式化日期并赋值
+      this.value1=row;
+    },
+    nextDate() {
+      //后一天
+      let row=[];
+      let a1=new Date(this.value1[0]).getTime()
+      let a2=new Date(this.value1[1]).getTime()
+      if(a2-a1<=24 * 60 * 60 * 1000){
+        if((a2 + 24 * 60 * 60 * 1000)<(new Date().getTime())){
+          row[0] = this.convertToDate(new Date(this.value1[0]).getTime() + 24 * 60 * 60 * 1000); //格式化日期并赋值
+          row[1] = this.convertToDate(new Date(this.value1[1]).getTime() + 24 * 60 * 60 * 1000); //格式化日期并赋值
+          this.value1=row;
+        }
+      }
+    },
+    prevDate() {
+      //前一天
+      let row=[];
+      let a1=new Date(this.value1[0]).getTime()
+      let a2=new Date(this.value1[1]).getTime()
+      if(a2-a1<=24 * 60 * 60 * 1000){
+        row[0] = this.convertToDate(new Date(this.value1[0]).getTime() - 24 * 60 * 60 * 1000); //格式化日期并赋值
+        row[1] = this.convertToDate(new Date(this.value1[1]).getTime() - 24 * 60 * 60 * 1000); //格式化日期并赋值
+        this.value1=row;
+      }
+    },
+    convertToDate(date) {
+      var date = new Date(date);
+      var y = date.getFullYear();
+      var m = date.getMonth() + 1;
+      var d = date.getDate();
+      m = m < 10 ? "0" + m : m; //月小于10，加0
+      d = d < 10 ? "0" + d : d; //day小于10，加0
+      return y + "-" + m + "-" + d;
+    },
+    // 获取用户名和相片
+    // select(token) {
+    //   this.$axios(
+    //     "http://so.newsteel.ai:8888/shiro/web/authc/isPermitted?permission=prod:sop:view&token=" +
+    //       token
+    //   ).then((res) => {});
+    // },
+    // 查询新钢铁用户权限
+  },
+};
+</script>
+//  datetimerange组件修改样式 
+<style>
+/* datetimerange组件修改样式 */
+.el-range-editor.el-input__inner {
+  width: 12vw;
+  background-color: #1c3365;
+  border: none;
+}
+.el-date-editor .el-range-input {
+  background-color: #1c3365;
+  /* color: red !important; */
+}
+
+.el-date-editor .el-range-separator {
+  color: #5f5b65;
+}
+el-input__icon el-range__close-icon {
+  display: none;
+}
+.el-icon-time:before {
+  display: none;
+}
+.el-date-editor .el-range__icon {
+  display: none;
+}
+.el-range-editor--small .el-range__close-icon,
+.el-range-editor--small .el-range__icon {
+  display: none;
+  width: 0vw;
+}
+/* 开始和结束日期的input */
+/* 只能通过调整这个input来达到消除右侧隐藏删除按钮所占用的空间 */
+.el-range-editor--small .el-range-input {
+  width: 4.5vw;
+}
+.el-range-editor.el-input__inner {
+  width: 11vw;
+}
+/* 整个控件 */
+.el-date-editor--datetimerange.el-input,
+.el-date-editor--datetimerange.el-input__inner {
+  /* border: solid 1px red; */
+  height: 2.8vh;
+}
+</style>
+// 表格样式
+<style scoped>
+.table,
+thead,
+tbody tr {
+  width: 100%;
+  /* 表格自动布局 */
+  display: table;
+  table-layout: fixed;
+}
+/* 实现鼠标滑动表格的一整行变色 */
+.table tbody tr:hover > td {
+  background-color: #0061d1;
+}
+tr:hover {
+  background-color: #0061d1;
+}
+/* 实现鼠标滑动表格的一整行变色 */
+.table tbody {
+  /* 表格滚轮 */
+  height: 50vh;
+  display: block;
+  overflow-y: scroll;
+  /* 表格滚轮 */
+  text-align: center;
+  background-color: #2a354b;
+  color: #465e72;
+  width: 100.2%;
+  scrollbar-width: none;
+}
+.table tbody tr {
+  height: 4vh;
+}
+.table td {
+  height: 4vh;
+  background-color: #1e2d42;
+  border: solid 2px #23304c;
+}
+.table thead tr th {
+  background-color: #142752;
+  border: solid 2px #23304c;
+}
+.table {
+  margin-left: 0.3vw;
+}
+.table thead {
+  background-color: #142752;
+  height: 5vh;
+  width: 100%;
+  color: #6f91a5;
+  margin-left: 0.1vw;
+}
+/* 取消表格的滚轮 */
+::-webkit-scrollbar-thumb {
+  background-color: #000 !important;
+  border-radius: 3vw;
+}
+/* 滑轮背景色 */
+/* 滚动条的头尾的颜色 */
+::-webkit-scrollbar-button {
+  background-color: none;
+}
+/* 滚动条的头尾的颜色 */
+/* 滚动条的背景色 */
+::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+  background-color: none !important;
+  display: none;
+}
+</style>
